@@ -1,0 +1,6 @@
+build
+coverage
+dist
+.vscode
+.nyc_output
+.vs
