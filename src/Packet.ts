@@ -2,10 +2,12 @@ import fs from 'fs';
 import * as constants from './constants';
 import APIException from './error';
 import { parseLineInputToPack } from './helpers';
+import getKnapSack from './knapsack';
 import { Pack } from './types';
 
 class Packer {
   static async getPackOptimizedIndexes(input: Pack): Promise<number[]> {
+    const output = getKnapSack(input);
     return [];
   }
   /**
