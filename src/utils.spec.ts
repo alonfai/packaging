@@ -97,7 +97,7 @@ describe('utils', () => {
     it('parse line correctly', () => {
       const result = parseLineInputToPack(line);
       expect(result).toBeDefined();
-      expect(result.maxWeight).toEqual(8);
+      expect(result.maximumWeight).toEqual(8);
       expect(result.items).toBeDefined();
       expect(result.items.length).toEqual(1);
       const item = result.items[0];

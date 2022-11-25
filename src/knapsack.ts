@@ -1,55 +1,51 @@
-import { Pack } from './types';
+import { Item, Pack, Result } from './types';
 
-function knapsack(
-  capacity: number,
-  n: number,
-  values: number[],
-  weights: number[],
-  lookup: Map<string, number>,
-): number {
-  // base case: when we cannot have take more items
-  if (capacity < 0) {
-    return Number.MIN_SAFE_INTEGER;
+export function knapsack({ maximumWeight, items }: Pack): Result {
+  const maxItemIndex = items.length - 1;
+  const totalCapacity = maximumWeight;
+  const memo: number[] = [];
+
+  function value(itemIndex: number, capacity: number) {
+    if (itemIndex < 0 || capacity <= 0) {
+      return 0;
+    }
+
+    const key = totalCapacity * itemIndex + (capacity - 1);
+    if (!!memo[key]) {
+      return memo[key];
+    }
+    return (memo[key] = calculateValue(itemIndex, capacity));
   }
 
-  // Check capacity and items on zero
-  if (capacity === 0 || n < 0) {
-    return 0;
+  function calculateValue(itemIndex: number, capacity: number): number {
+    const { weight: itemCost, cost: itemValue } = items[itemIndex];
+    const vPrevious = value(itemIndex - 1, capacity);
+    if (itemCost > capacity) {
+      return vPrevious;
+    }
+    const vCombined = value(itemIndex - 1, capacity - itemCost) + itemValue;
+    return vCombined > vPrevious ? vCombined : vPrevious;
   }
 
-  // Unique key for map for memoization
-  const key = `${n}|${capacity}`;
-
-  // If the sub-problem is appearing for first time, solve it and store its result in the map
-  if (!lookup.has(key)) {
-    // pick current item n in knapSack and recur
-    // for remaining items (n-1) with reduced capacity (capacity - weights[n])
-    const include = values[n] + knapsack(capacity - weights[n], n - 1, values, weights, lookup);
-
-    // leave current item n from knapSack and recurcive call for remaining items (n-1)
-    const exclude = knapsack(capacity, n - 1, values, weights, lookup);
-
-    // Assign max value we get by picking or leaving the current item
-    lookup.set(key, Math.max(include, exclude));
+  function select() {
+    const bag: Item[] = [];
+    for (let i = maxItemIndex, capacity = totalCapacity; i >= 0; i -= 1) {
+      if (value(i, capacity) <= value(i - 1, capacity)) {
+        continue;
+      }
+      const item = items[i];
+      capacity -= item.weight;
+      bag.push(item);
+    }
+    return bag;
   }
 
-  // return setting the value to the map
-  return lookup.get(key) ?? 0;
+  return {
+    getMaxCost: () => {
+      return value(maxItemIndex, totalCapacity);
+    },
+    getItems: select,
+  };
 }
 
-// Prints the items which are put
-// in a knapsack of capacity W
-export function getKnapSack(inputPack: Pack) {
-  const W = inputPack.maxWeight;
-  const wt = inputPack.items.map((item) => item.weight);
-  const val = inputPack.items.map((item) => item.cost);
-  const n = val.length;
-  const lookup = new Map();
-
-  const values = [10, 20, 30, 40];
-  const weights = [30, 10, 40, 20];
-  const capacity = 40;
-
-  const res = knapsack(capacity, values.length - 1, values, weights, lookup);
-  return res;
-}
+export const maximumValue: (pack: Pack) => number = (pack) => knapsack(pack).getMaxCost();

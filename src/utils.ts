@@ -95,7 +95,7 @@ export function parseLineInputToPack(line: string): Pack {
     items.push(item);
   }
   return {
-    maxWeight: Number(maxWeight),
+    maximumWeight: Number(maxWeight),
     items,
   };
 }

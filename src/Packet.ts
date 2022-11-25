@@ -2,13 +2,13 @@ import fs from 'fs';
 import * as constants from './constants';
 import { APIException } from './error';
 import { parseLineInputToPack } from './utils';
-import { getKnapSack } from './knapsack';
+import { knapsack } from './knapsack';
 import { Pack } from './types';
 
 class Packer {
   static async getPackOptimizedIndexes(input: Pack): Promise<number[]> {
-    const output = getKnapSack(input);
-    return [];
+    const { getItems } = knapsack(input);
+    return getItems().map((item) => item.index);
   }
 
   static readFile(filePath: string) {
@@ -38,8 +38,9 @@ class Packer {
     let result = '';
     for (const line of lines) {
       const pack = parseLineInputToPack(line);
+      console.log(pack);
       const indexes = await Packer.getPackOptimizedIndexes(pack);
-      result = result.concat(indexes.join(','), '\r\n');
+      result = result.concat(indexes.length === 0 ? '-' : indexes.join(','), '\r\n');
     }
     return result;
   }
