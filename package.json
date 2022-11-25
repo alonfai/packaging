@@ -9,6 +9,7 @@
     "build": "tsc",
     "lint": "eslint src/**/*.ts",
     "format": "eslint src/**/*.ts --fix",
+    "prettier": "prettier src/**/*.ts --write --ignore-unknown",
     "test": "DOTENV_CONFIG_PATH=./.env.test jest",
     "test:watch": "npm test -- --watch",
     "test:coverage": "npm test -- --coverage"
