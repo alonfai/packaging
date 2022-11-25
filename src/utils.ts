@@ -45,17 +45,20 @@ export function isItemValid(index?: string, weight?: string, cost?: string, curr
  * @returns
  */
 export function parseItem(line: string, startingIndex: number, lastIndex: number) {
+  if (startingIndex > lastIndex) {
+    throw new APIException(`${constants.ERRORS.INVALID_ITEM_RECORD}: ${line}`);
+  }
   const str = line.substring(startingIndex + 1, lastIndex);
   const parts = str.split(',');
   if (parts.length !== 3) {
-    throw new APIException(`${constants.ERRORS.INVALID_ITEM_RECORD}: ${str}`);
+    throw new APIException(`${constants.ERRORS.INVALID_ITEM_RECORD}: ${line}`);
   }
   const index = parts[0];
   const weight = parts[1];
   const cost = parts[2]?.substring(1);
   const currency = parts[2]?.[0];
   if (!isItemValid(index, weight, cost, currency)) {
-    throw new APIException(`${constants.ERRORS.INVALID_ITEM_RECORD}: ${str}`);
+    throw new APIException(`${constants.ERRORS.INVALID_ITEM_RECORD}: ${line}`);
   }
 
   return {

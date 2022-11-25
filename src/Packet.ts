@@ -2,7 +2,7 @@ import fs from 'fs';
 import * as constants from './constants';
 import { APIException } from './error';
 import { parseLineInputToPack } from './utils';
-import getKnapSack from './knapsack';
+import { getKnapSack } from './knapsack';
 import { Pack } from './types';
 
 class Packer {

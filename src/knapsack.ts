@@ -39,7 +39,7 @@ function knapsack(
 
 // Prints the items which are put
 // in a knapsack of capacity W
-function getKnapSack(inputPack: Pack) {
+export function getKnapSack(inputPack: Pack) {
   const W = inputPack.maxWeight;
   const wt = inputPack.items.map((item) => item.weight);
   const val = inputPack.items.map((item) => item.cost);
@@ -53,5 +53,3 @@ function getKnapSack(inputPack: Pack) {
   const res = knapsack(capacity, values.length - 1, values, weights, lookup);
   return res;
 }
-
-export default getKnapSack;
