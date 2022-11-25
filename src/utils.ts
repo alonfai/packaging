@@ -1,6 +1,37 @@
+import fs from 'fs';
 import { APIException } from './error';
 import * as constants from './constants';
 import { Item, Pack } from './types';
+
+/**
+ * Reading a given file and returns its content
+ * @param filePath path to source file
+ * @returns the file content
+ *
+ * @throws {@link APIException} This exception is thrown if the input file was not found
+ */
+export function readFile(filePath: string) {
+  try {
+    return fs.readFileSync(filePath, { encoding: constants.INPUT_FILE_ENCODING });
+  } catch (err) {
+    throw new APIException(`${constants.ERRORS.INVALID_FILE_PATH} ${(err as Error).message}`);
+  }
+}
+
+/**
+ * Writes data to a given file path
+ * @param filePath path to output file
+ * @param data data to write
+ *
+ * @throws {@link APIException} This exception is thrown if the file was not able to write
+ */
+export function writeFile(filePath: string, data: string) {
+  try {
+    fs.writeFileSync(filePath, data);
+  } catch (err) {
+    throw new APIException(`${constants.ERRORS.INVALID_FILE_PATH} ${(err as Error).message}`);
+  }
+}
 
 /**
  * Does the given string is a valid number

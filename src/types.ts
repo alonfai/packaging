@@ -16,11 +16,11 @@ export interface Result {
   /**
    * Get maximum cost available in the package
    */
-  getMaxCost: () => number;
+  maxCost: number;
   /**
    * list of items giving the maximum cost when their total weight is less than or equal to the package max weight limit
    */
-  getItems: () => Item[];
+  items: Item[];
 }
 
 /**
