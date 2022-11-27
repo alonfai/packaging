@@ -15,8 +15,16 @@
     "test:coverage": "npm test -- --coverage"
   },
   "keywords": [
-    "Packing"
+    "Packing",
+    "node"
   ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/alonfai/packaging"
+  },
+  "engines": {
+    "node": ">=16.14.0"
+  },
   "author": "Alon Faingertz",
   "license": "ISC",
   "dependencies": {
