@@ -1,5 +1,5 @@
 import { ERRORS, INPUT_ITEM_CURRENCY_LIST } from './constants';
-import { APIException } from './error';
+import { APIException } from './APIException';
 import { isNumber, isItemValid, parseItem, parseLineInputToPack, readFile, writeFile } from './utils';
 import { promises as fs } from 'fs';
 

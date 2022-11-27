@@ -1,5 +1,5 @@
 import { promises as fs } from 'fs';
-import { APIException } from './error';
+import { APIException } from './APIException';
 import * as constants from './constants';
 import { Item, Pack } from './types';
 
