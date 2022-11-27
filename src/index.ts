@@ -1,6 +1,6 @@
 import path from 'path';
-import { Packer } from './packer';
-import { writeFile } from './utils';
+import { Packer } from './com/mobiquity/packer/packer';
+import { writeFile } from './com/mobiquity/packer/utils';
 
 // Start file in development mode
 if (process.env['NODE_ENV'] === 'development') {
@@ -15,4 +15,4 @@ if (process.env['NODE_ENV'] === 'development') {
   run();
 }
 
-export default Packer.pack;
+export default Packer;
