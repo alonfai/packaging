@@ -90,6 +90,8 @@ export function parseItem(line: string, startingIndex: number, lastIndex: number
   const currency = parts[2]?.[0];
   if (!isItemValid(index, weight, cost, currency)) {
     throw new APIException(`${constants.ERRORS.INVALID_ITEM_RECORD}: ${line}`);
+  } else if (Number(weight) > 100 || Number(cost) > 100) {
+    throw new APIException(`${constants.ERRORS.MAX_WEIGHT_AND_COST_FOR_ITEM_UPTO_100}: ${line}`);
   }
 
   return {
@@ -113,6 +115,10 @@ export function parseLineInputToPack(line: string): Pack {
     throw new APIException(constants.ERRORS.INVALID_MAX_WEIGHT);
   }
 
+  if (Number(maxWeight) > 100) {
+    throw new APIException(constants.ERRORS.MAX_PACKAGE_WEIGHT_UPTO_100);
+  }
+
   const collection = line
     .substring(seperatorIndex + 1)
     .trim()
@@ -125,6 +131,11 @@ export function parseLineInputToPack(line: string): Pack {
     const item = parseItem(str, startingIndex, lastIndex);
     items.push(item);
   }
+
+  if (items.length > 15) {
+    throw new APIException(constants.ERRORS.MAX_ITEMS_TO_CHOOSE_FROM_UPTO_15);
+  }
+
   return {
     maximumWeight: Number(maxWeight),
     items,

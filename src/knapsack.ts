@@ -1,7 +1,39 @@
 import { Item, Pack, Result } from './types';
 
+/**
+ * Function to compare 2 items for sorting.
+ * @param a Item One
+ * @param b Item Two
+ * @returns negative value if the first item is less than the second item value otherwise
+ */
+export function compareFn(a: Item, b: Item) {
+  if (a.weight < b.weight) {
+    return -1;
+  }
+  if (a.weight > b.weight) {
+    return 1;
+  }
+  return 0;
+}
+
+/**
+ * Combine items with similar costs together as part of the search algorithm
+ * @param items list of items
+ * @returns Array<Item>
+ */
+function organiseItemsWithSimilarPrice(items: Item[]) {
+  const map = new Map<number, Item[]>();
+  for (const item of items) {
+    const key = item.cost;
+    const val = map.get(key) ?? [];
+    map.set(key, val.concat([item]).sort(compareFn));
+  }
+  return Array.from(map.values()).flat(1);
+}
+
 export function knapsack({ maximumWeight, items }: Pack): Result {
-  const itemsLength = items.length - 1;
+  const organizedItems = organiseItemsWithSimilarPrice(items);
+  const itemsLength = organizedItems.length - 1;
   const arrMap = new Map<number, number>();
 
   function value(itemIndex: number, capacity: number) {
@@ -19,12 +51,12 @@ export function knapsack({ maximumWeight, items }: Pack): Result {
 
   /**
    * Get the
-   * @param itemIndex
-   * @param capacity
+   * @param itemIndex picked item index from the list
+   * @param capacity total capacity left to put in the package
    * @returns
    */
   function calculateValue(itemIndex: number, capacity: number): number {
-    const { weight: itemCost, cost: itemValue } = items[itemIndex];
+    const { weight: itemCost, cost: itemValue } = organizedItems[itemIndex];
     const vPrevious = value(itemIndex - 1, capacity);
     if (itemCost > capacity) {
       return vPrevious;
@@ -33,13 +65,18 @@ export function knapsack({ maximumWeight, items }: Pack): Result {
     return vCombined > vPrevious ? vCombined : vPrevious;
   }
 
+  /**
+   * Retrieve the list of items to fit in the pack
+   * @returns Array {@typeof Item}
+   */
   function getItems() {
     const pack: Item[] = [];
+    // find the items using top-bottom approach
     for (let i = itemsLength, capacity = maximumWeight; i >= 0; i -= 1) {
       if (value(i, capacity) <= value(i - 1, capacity)) {
         continue;
       }
-      const item = items[i];
+      const item = organizedItems[i];
       capacity -= item.weight;
       pack.push(item);
     }

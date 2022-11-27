@@ -8,7 +8,7 @@ describe('packet', () => {
       const output = Packer.pack(inputFilepath);
       const indexes = output.split(/\r?\n/);
       expect(indexes.length).toEqual(4);
-      expect(indexes).toEqual(['4', '-', '7,2', '9,6']);
+      expect(indexes).toEqual(['4', '-', '7,2', '9,8']);
     });
   });
 });

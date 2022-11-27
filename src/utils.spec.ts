@@ -125,6 +125,20 @@ describe('utils', () => {
       );
     });
 
+    it('input string item has cost above 100', () => {
+      const errorLine = '(1,53.38,€125)';
+      expect(() => parseItem(errorLine, 0, errorLine.length - 1)).toThrow(
+        new APIException(`${ERRORS.MAX_WEIGHT_AND_COST_FOR_ITEM_UPTO_100}: ${errorLine}`),
+      );
+    });
+
+    it('input string item has weight above 100', () => {
+      const errorLine = '(1,101.38,€45)';
+      expect(() => parseItem(errorLine, 0, errorLine.length - 1)).toThrow(
+        new APIException(`${ERRORS.MAX_WEIGHT_AND_COST_FOR_ITEM_UPTO_100}: ${errorLine}`),
+      );
+    });
+
     it('valid string item', () => {
       const result = parseItem(line, startingIndex, lastIndex);
       expect(result.index).toEqual(1);
@@ -136,9 +150,20 @@ describe('utils', () => {
 
   describe('parseLineInputToPack', () => {
     const line = '8 : (1,15.3,€34)';
-    it('invalid max weight for package', () => {
+    it('invalid max weight number for package', () => {
       const errorLine = '23f: (1,15.3,€34)';
       expect(() => parseLineInputToPack(errorLine)).toThrow(new APIException(ERRORS.INVALID_MAX_WEIGHT));
+    });
+
+    it('Max weight for package exceeds 100', () => {
+      const errorLine = '101: (1,15.3,€34)';
+      expect(() => parseLineInputToPack(errorLine)).toThrow(new APIException(ERRORS.MAX_PACKAGE_WEIGHT_UPTO_100));
+    });
+
+    it('Max items to choose from exceeds 15', () => {
+      const errorLine =
+        '90: (1,90.72,€13) (2,33.80,€40) (3,43.15,€10) (4,37.97,€16) (5,46.81,€36) (6,48.77,€79) (7,81.80,€45) (8,19.36,€79) (9,6.76,€64) (9,6.76,€6) (9,6.76,€7) (9,6.76,€80) (9,6.76,€90) (9,6.76,€24) (9,6.76,€34) (9,6.76,€44)';
+      expect(() => parseLineInputToPack(errorLine)).toThrow(new APIException(ERRORS.MAX_ITEMS_TO_CHOOSE_FROM_UPTO_15));
     });
 
     it('parse line correctly', () => {

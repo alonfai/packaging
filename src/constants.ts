@@ -39,4 +39,16 @@ export const ERRORS = {
    * Item information in input file is incorrectly formatted
    */
   INVALID_ITEM_RECORD: 'Invalid record inside the input file',
+  /**
+   * Max Weight for package can take is less than or equal to 100
+   */
+  MAX_PACKAGE_WEIGHT_UPTO_100: 'Max Weight for package can take is less than or equal to 100',
+  /**
+   * Max items to choose from is limited to 15
+   */
+  MAX_ITEMS_TO_CHOOSE_FROM_UPTO_15: 'Max items to choose from is limited to 15',
+  /**
+   * Max weight and cost for item is less than or eq׳ual to 100
+   */
+  MAX_WEIGHT_AND_COST_FOR_ITEM_UPTO_100: 'Max weight and cost for item is less than or equal to 100',
 };
