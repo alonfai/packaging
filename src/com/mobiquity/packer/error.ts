@@ -2,7 +2,8 @@
  * General exception object
  */
 export class APIException extends Error {
-  constructor(name: string) {
-    super(name);
+  constructor(message: string) {
+    super(message);
+    this.name = 'APIException';
   }
 }

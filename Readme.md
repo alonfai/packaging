@@ -12,13 +12,13 @@ This solution demonstrate part of the the DP family of algorithmic technique for
 
 Additional constraints:
 
-1. Max weight that a package can take is ≤ 100
-2. There might be up to 15 items you need to choose from
-3. Max weight and cost of an item is ≤ 100
+- Max weight that a package can take is ≤ 100
+- There might be up to 15 items you need to choose from
+- Max weight and cost of an item is ≤ 100
 
 ---
 
-The solution will be used as a cross platform capable to run using standard node.js app or in browser environment. Following publishing of the package the main entry point will be at `dist/index.js`
+Building the solution will be bundled inside the **`dist`** folder
 
 ---
 
@@ -57,6 +57,25 @@ yarn install
 
 ---
 
+## Example
+
+To use this module in your local repository:
+
+````
+
+```javacript
+
+//Import this module to your local workflow
+
+import Packer from 'packaging-challenge';
+
+// You can apply the static method of Packer for your need
+
+const output = await Packer.pack('filePath to read input from');
+````
+
+---
+
 ## Folder structure
 
 All source code inside `src` folder. It contains the following modules:
@@ -64,14 +83,14 @@ All source code inside `src` folder. It contains the following modules:
 - constants.ts - List of pre-defined constants values
 - error.ts - List of pre-defined Error classes (e.g. APIException) to throw on several errors and/or constraints not been met.
 - index.ts - Entry point for the app
-- knapsack.ts - Main algorithm of the knapsack 0-1 DP programming
+- knapsack.ts - Main algorithm of the knapsack 0-1 DP problem
 - packer.ts - Main class method that applies a pack search algorithm on list of items
 - types.ts - pre-defined list of types/interfaces used in the app.
 - utils.ts - list of utility helper functions
 
 All \*.spec.ts files are part of the unit tests on the different source modules
 
-![Alt Text](Image.png)
+---
 
 ## Available Scripts
 
@@ -81,13 +100,13 @@ In the project directory, you can run:
 
 Runs the app in the development/watch mode.
 
-The app comes with a sample information file inside `data/example_input`. To see the outcome of this in your console, please apply the following steps:
+This repo comes with a sample file inside [data/example_input](./data/example_input). To see the outpu of this in your console, please apply the following steps:
 
 1. Add .env file for reading environment variables inside your app.
-2. add `NODE_ENV=development` inside your .env file.
-3. Run `yarn start` inside your local bash environment.
+2. add `NODE_ENV=development` inside this .env file.
+3. Run `yarn start` inside your local environment.
 
-This will then attempt to read the `data/example_input` file and displayed inside your console the output for the given input packs, plus storing these inside `data/data-output` file.
+This will then attempt to read the `data/example_input` file and display the output for the given packs, plus storing the outcome inside **`data/data-output`** file.
 
 ## `yarn test`
 
