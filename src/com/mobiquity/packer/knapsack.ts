@@ -31,6 +31,11 @@ function organiseItemsWithSimilarPrice(items: Item[]) {
   return Array.from(map.values()).flat(1);
 }
 
+/**
+ * Calculate the optimized set of items to fit in the pack with a "maximumWeight" number
+ * @param input of maximum weight and collection of items to choose from
+ * @returns optimized list of items and their total cost in the bagged package
+ */
 export function knapsack({ maximumWeight, items }: Pack): Result {
   const organizedItems = organiseItemsWithSimilarPrice(items);
   const itemsLength = organizedItems.length - 1;
@@ -50,10 +55,10 @@ export function knapsack({ maximumWeight, items }: Pack): Result {
   }
 
   /**
-   * Get the
+   * Get the total value of the given inspected item with the previous selected list
    * @param itemIndex picked item index from the list
    * @param capacity total capacity left to put in the package
-   * @returns
+   * @returns number
    */
   function calculateValue(itemIndex: number, capacity: number): number {
     const { weight: itemCost, cost: itemValue } = organizedItems[itemIndex];
