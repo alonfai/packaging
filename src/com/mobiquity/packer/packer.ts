@@ -7,8 +7,8 @@ export class Packer {
    * @param filePath A given path to load input data from
    * @returns A string for item indexes that their total weight is less than or equal to the package maxWeight limit and the total cost is as large as possible
    */
-  static pack(filePath: string) {
-    const data = readFile(filePath);
+  static async pack(filePath: string) {
+    const data = await readFile(filePath);
     const lines = data.split(/\r?\n/);
     let result = '';
     for (const line of lines) {

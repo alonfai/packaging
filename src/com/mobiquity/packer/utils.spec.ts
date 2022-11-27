@@ -1,9 +1,9 @@
 import { ERRORS, INPUT_ITEM_CURRENCY_LIST } from './constants';
 import { APIException } from './error';
 import { isNumber, isItemValid, parseItem, parseLineInputToPack, readFile, writeFile } from './utils';
-import fs from 'fs';
+import { promises as fs } from 'fs';
 
-jest.mock('fs');
+jest.mock('fs/promises');
 
 describe('utils', () => {
   describe('isNumber', () => {
@@ -33,7 +33,7 @@ describe('utils', () => {
       const mockFn = jest.fn().mockImplementation(() => {
         throw new APIException('ERROR');
       });
-      (fs.readFileSync as jest.Mock) = mockFn;
+      (fs.readFile as jest.Mock) = mockFn;
       const validate = () => {
         readFile('path');
       };
@@ -43,7 +43,7 @@ describe('utils', () => {
     it('valid path', () => {
       const output = { name: 'name', value: 'value' };
       const mockFn = jest.fn().mockReturnValue(output);
-      (fs.readFileSync as jest.Mock) = mockFn;
+      (fs.readFile as jest.Mock) = mockFn;
       const data = readFile('path');
       expect(data).toEqual(output);
       expect(mockFn).toBeCalled();
@@ -56,7 +56,7 @@ describe('utils', () => {
       const mockFn = jest.fn().mockImplementation(() => {
         throw new APIException('ERROR');
       });
-      (fs.writeFileSync as jest.Mock) = mockFn;
+      (fs.writeFile as jest.Mock) = mockFn;
 
       const validate = () => {
         writeFile('path', JSON.stringify(data));
@@ -66,7 +66,7 @@ describe('utils', () => {
     });
     it('valid path', () => {
       const mockFn = jest.fn().mockReturnValue(undefined);
-      (fs.writeFileSync as jest.Mock) = mockFn;
+      (fs.writeFile as jest.Mock) = mockFn;
       writeFile('path', JSON.stringify(data));
       expect(mockFn).toBeCalled();
     });

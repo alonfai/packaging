@@ -1,4 +1,4 @@
-import fs from 'fs';
+import { promises as fs } from 'fs';
 import { APIException } from './error';
 import * as constants from './constants';
 import { Item, Pack } from './types';
@@ -12,7 +12,7 @@ import { Item, Pack } from './types';
  */
 export function readFile(filePath: string) {
   try {
-    return fs.readFileSync(filePath, { encoding: constants.INPUT_FILE_ENCODING });
+    return fs.readFile(filePath, { encoding: constants.INPUT_FILE_ENCODING });
   } catch (err) {
     throw new APIException(`${constants.ERRORS.INVALID_FILE_PATH} ${(err as Error).message}`);
   }
@@ -27,7 +27,7 @@ export function readFile(filePath: string) {
  */
 export function writeFile(filePath: string, data: string) {
   try {
-    fs.writeFileSync(filePath, data);
+    return fs.writeFile(filePath, data);
   } catch (err) {
     throw new APIException(`${constants.ERRORS.INVALID_FILE_PATH} ${(err as Error).message}`);
   }
